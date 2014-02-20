@@ -1,0 +1,160 @@
+string url = "";
+string baseURL = "";
+string gMount = "";
+key requestid;
+//integer VERBOSE = TRUE;
+integer VERBOSE = FALSE;
+
+string left(string src, string divider) {
+    integer index = llSubStringIndex( src, divider );
+    if(~index)
+        return llDeleteSubString( src, index, -1);
+    return src;
+}
+
+//string value = left("Colour=Brown", "="); //value == "Colour"
+
+
+string right(string src, string divider) {
+    integer index = llSubStringIndex( src, divider );
+    if(~index)
+        return llDeleteSubString( src, 0, index + llStringLength(divider) - 1);
+    return src;
+}
+
+//string value = right("Colour=Brown", "="); //value == "Brown"
+
+string remove_HTML_tags(string source)
+{
+    integer is_HTML = FALSE;
+ 
+    string output;
+    string characterInSource;
+ 
+    integer index;
+    do
+    {
+        characterInSource = llGetSubString(source, index, index);
+ 
+        if (characterInSource == "<")
+//      {
+            is_HTML = TRUE;
+//      }
+ 
+        if (!is_HTML && characterInSource != "\n")
+//      {
+            output += characterInSource;
+//      }
+ 
+        if (characterInSource == ">")
+//      {
+            is_HTML = FALSE;
+//      }
+    }
+    while (++index < llStringLength(source));
+ 
+    return
+        output;
+}
+
+string removeMountFromParcelURL(string url)
+{
+    baseURL=url;
+    if (VERBOSE)
+        llSay (0, baseURL);
+    baseURL = right(baseURL,"://");
+    if (VERBOSE)
+        llSay (0, baseURL);
+    baseURL = left(baseURL,"/");
+    if (VERBOSE)
+        llSay (0, baseURL);
+    baseURL = "http://" + baseURL;
+    if (VERBOSE)
+        llSay (0, baseURL);
+    return (baseURL);
+}
+
+string getMountFromParcelURL(string url)
+{
+    gMount=url;
+    if (VERBOSE)
+        llSay (0, gMount);
+    gMount = right(gMount,"://");
+    if (VERBOSE)
+        llSay (0, gMount);
+    gMount = right(gMount,"/");
+    if (VERBOSE)
+        llSay (0, gMount);
+    gMount = "/" + gMount;
+    if (VERBOSE)
+        llSay (0, gMount);
+    return (gMount);
+}
+
+
+default
+{
+    on_rez(integer olat)
+    {
+        llResetScript();
+    }
+    
+    state_entry()
+    {
+        url = llGetParcelMusicURL();
+        baseURL = removeMountFromParcelURL(url);
+        //baseURL = removeMountFromParcelURL(url);
+        gMount = getMountFromParcelURL(url);
+        if (VERBOSE)
+            llSay (0, "state_entry: " + baseURL);
+        requestid = llHTTPRequest(baseURL,[HTTP_BODY_MAXLENGTH,8192],"");
+        llSetTimerEvent(60);
+    }
+    
+    http_response(key request_id, integer status, list metadata, string body)
+    {
+        string delimiter="Current Song:";
+        string final_delimiter="&nbsp;Support";
+        
+        if (requestid == requestid)
+        {
+//            llSetText("Stream" + body,<1,1,1>,1);
+            if (VERBOSE)
+                llSay(0, "http_response: " + body);
+            integer index = llSubStringIndex(body,"Current Song");
+            if(index == -1) 
+            {
+                if (VERBOSE)
+                    llSay(0,"Current Song was not found in the string");
+            } 
+            else 
+            {
+                if (VERBOSE)
+                    llSay(0,"Current Song was found in the string.");
+                body = remove_HTML_tags(body);
+                body = right(body, gMount);
+                body = right(body, delimiter);
+                body = left(body, "Mount Point");
+                body = left(body, final_delimiter);
+                if (VERBOSE)
+                    llSay(0,body);
+                llSetText(body,<1,1,1>,1);
+            }
+        }
+    }
+
+    timer()
+    {
+        if(url == llGetParcelMusicURL())
+        {
+            if (VERBOSE)
+                llSay (0, "timer: " + baseURL);
+            requestid = llHTTPRequest(baseURL,[HTTP_BODY_MAXLENGTH,8192],"");
+        }
+        else
+        {
+            llDie();
+        }
+    }
+
+}
