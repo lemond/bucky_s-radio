@@ -66,8 +66,13 @@ As shipped,  commands take the form of "/77 <command>"
 
 This radio is derived from the one done by Dianne Mechanique & sky Honey.
 
-
+***
+***
+***
 README Lemond Updates
+***
+***
+***
 
 This includes the wiki deed tools ("masked" as tools group) in case the object is deeded to group and you can't return it.  Kill it instead.
 
@@ -83,7 +88,13 @@ Note previous work is released under various licenses that say similar things.  
 
 Lemonodo Oh 2013-09-13
 
+***
+***
+***
 RESERVE2stations-short
+***
+***
+***
 
 lounge-radio swiss ambient chillout=http://swisslounge.net:8030/lounge-radio
 synthetronica radio ambient=http://synthetronica.com:8000/ambient.ogg
@@ -93,7 +104,13 @@ psyradio progressive house=http://81.88.36.42:8010/
 rsr detroit chicago=http://94.255.251.102:8080/
 party vibes techno house trance=http://partyviberadio.com:8006/
 
+***
+***
+***
 RESERVEstations-short
+***
+***
+***
 
 BRITISH INVASION The Beatles.=http://64.40.99.2:8080
 BeBop Radio = http://213.251.136.72:8800
@@ -117,8 +134,13 @@ dance trance,Music One - Today's Dance = http://64.236.34.97:80/stream/1011
 lounge - SmoothLounge.com = http://66.28.209.20:80
 psy chillout -Chillout ambient psy chillout = http://64.236.34.67:80/stream/1035
 
-
+***
+***
+***
 stations-short
+***
+***
+***
 
 lounge-radio swiss ambient chillout=http://swisslounge.net:8030/lounge-radio
 synthetronica radio ambient=http://synthetronica.com:8000/ambient.ogg
@@ -194,7 +216,13 @@ Have fun :-)
 Dianne Mechanique
 sky Honey
 
+***
+***
+***
 Bucky_s Introductory Note
+***
+***
+***
 
 http://forums-archive.secondlife.com/15/d6/129329/1.html
 08-11-2006 15:12
