@@ -1,0 +1,45 @@
+}
+
+default
+{
+    on_rez(integer olat)
+    {
+        llResetScript();
+    }
+    
+    state_entry()
+    {
+        gParcelurl = llGetParcelMusicURL();
+        if (VERBOSE)
+            llSay(0, "parcel Music URL " + gParcelurl);
+        string url = geturl(gParcelurl);
+        requestid = llHTTPRequest(url,[],"");
+        llSetTimerEvent(60);
+    }
+    
+    http_response(key request_id, integer status, list metadata, string body)
+    {
+        list temp = llParseString2List(body,["body"],[]);
+        string text = llList2String(temp,1);
+        text = llGetSubString(text,1,-1);
+        text = llGetSubString(text,0,(llStringLength(text) - 3));
+        list content = llParseString2List(text,[","],[]);
+        integer postrack = (llGetListLength(content) - 1);
+        llSetText(llList2String(content, postrack),<1,1,1>,1);
+    }
+
+    timer()
+    {
+        string parcelurl = llGetParcelMusicURL();
+        if (VERBOSE)
+            llSay(0, "timer: gParcelurl: " + gParcelurl + "parcelurl (just obtained): " + parcelurl);
+        if (parcelurl == gParcelurl)
+        {
+            string url = geturl(parcelurl);
+            requestid = llHTTPRequest(url,[],"");
+        }
+        else
+            llDie();
+    }
+}
+
